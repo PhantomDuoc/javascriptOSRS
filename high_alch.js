@@ -1,5 +1,5 @@
 var robot = require('robotjs');
-var max = 4911;
+var max = 6000;
 
 /*Comenzar con el item a trabajar en el recuadro 4.3 del inventario*/
 function main() {
