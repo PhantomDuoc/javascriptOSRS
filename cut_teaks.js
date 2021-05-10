@@ -4,36 +4,38 @@ function main() {
     console.log('Empezando...');
     sleep(4000);
     outer_loop:
-    while (true) {
-        if (fullInventory()) {
-            dropLogs();
-        }
-        var tree = findTeak();
-        if (tree == false){
-            continue outer_loop;
-        }
-        robot.moveMouseSmooth(tree.x, tree.y, 1);
-        robot.mouseClick();
-        sleep(getRandomInt(5000, 10000));
-        while (isCutting()) {
+        while (true) {
             if (fullInventory()) {
                 dropLogs();
-                sleep(getRandomInt(1000, 2000));
-            } else {
-                sleep(getRandomInt(1000, 2000));
+            }
+            var tree = findTeak();
+            if (tree == false) {
+                continue outer_loop;
+            }
+            robot.moveMouseSmooth(tree.x, tree.y, 1);
+            robot.mouseClick();
+            sleep(getRandomInt(5000, 10000));
+            while (isCutting()) {
+                if (fullInventory()) {
+                    dropLogs();
+                    sleep(getRandomInt(1000, 2000));
+                } else {
+                    sleep(getRandomInt(1000, 2000));
+                }
             }
         }
-    }
 }
 
 function isCutting() {
-    var x = 94, y = 86, width = 172, height = 31;
+    var x = 94,
+        y = 86,
+        width = 172,
+        height = 31;
     var img = robot.screen.capture(x, y, width, height);
-    var check_colors = ["00f500","00d200","00d900","0ee007"
-                        ,"00ff00","10d208","01ff00","01ff01"];
+    var check_colors = ["00f500", "00d200", "00d900", "0ee007", "00ff00", "10d208", "01ff00", "01ff01"];
     for (var i = 0; i < 500; i++) {
-        var random_x = getRandomInt(0, width-1);
-        var random_y = getRandomInt(0, height-1);
+        var random_x = getRandomInt(0, width - 1);
+        var random_y = getRandomInt(0, height - 1);
         var sample_color = img.colorAt(random_x, random_y);
 
         if (check_colors.includes(sample_color)) {
@@ -311,28 +313,28 @@ function drop28() {
 const { getRandomInt } = require("./global_functions/getRandomInt");
 
 function findTeak() {
-    var x = 980, y = 100, width = 291, height = 523;
+    var x = 980,
+        y = 100,
+        width = 291,
+        height = 523;
     var img = robot.screen.capture(x, y, width, height);
 
-    var teak_colors = ["b69256","b99457","856b3f","886d40"
-                    ,"b79356","b69356","8a7041","9f804b"
-                    ,"917444","b79357","9e7f4a","917544"
-                    ,"b89457","987b48","554528","b79457"];
+    var teak_colors = ["b69256", "b99457", "856b3f", "886d40", "b79356", "b69356", "8a7041", "9f804b", "917444", "b79357", "9e7f4a", "917544", "b89457", "987b48", "554528", "b79457"];
 
     for (var i = 0; i < 500; i++) {
 
-        var random_x = getRandomInt(0, width-1);
-        var random_y = getRandomInt(0, height-1);
+        var random_x = getRandomInt(0, width - 1);
+        var random_y = getRandomInt(0, height - 1);
         var sample_color = img.colorAt(random_x, random_y);
 
         if (teak_colors.includes(sample_color)) {
-            
+
             var screen_x = random_x + x;
             var screen_y = random_y + y;
 
-            if(confirmTeak(screen_x, screen_y)) {
+            if (confirmTeak(screen_x, screen_y)) {
                 console.log("Found a teak at: " + screen_x + ", " + screen_y + " color " + sample_color);
-                return {x: screen_x, y: screen_y};
+                return { x: screen_x, y: screen_y };
             } else {
                 console.log("Unconfirmed teak at: " + screen_x + ", " + screen_y + " color " + sample_color);
                 sleep(getRandomInt(7000, 10000));
@@ -346,18 +348,18 @@ function confirmTeak(screen_x, screen_y) {
 
     robot.moveMouseSmooth(screen_x, screen_y, 1);
     sleep(300);
-    
-    var x = screen_x + 145, y = screen_y + 55, width = 57, height = 20;
+
+    var x = screen_x + 145,
+        y = screen_y + 55,
+        width = 57,
+        height = 20;
     var img = robot.screen.capture(x, y, width, height);
 
-    var check_colors = ["00ffff","0ecac8","00f9fb","00ebec"
-                        ,"0af4f2","00feff","17dad6","20cbc6"
-                        ,"00fbfc","00f8f9","02ffff","00d2d2"
-                        ,"1ecec7","0fc3c2","0bdcdb","19ceca"];
+    var check_colors = ["00ffff", "0ecac8", "00f9fb", "00ebec", "0af4f2", "00feff", "17dad6", "20cbc6", "00fbfc", "00f8f9", "02ffff", "00d2d2", "1ecec7", "0fc3c2", "0bdcdb", "19ceca"];
 
     for (var i = 0; i < 500; i++) {
-        var random_x = getRandomInt(0, width-1);
-        var random_y = getRandomInt(0, height-1);
+        var random_x = getRandomInt(0, width - 1);
+        var random_y = getRandomInt(0, height - 1);
         var sample_color = img.colorAt(random_x, random_y);
 
         if (check_colors.includes(sample_color)) {
@@ -365,7 +367,7 @@ function confirmTeak(screen_x, screen_y) {
             return true;
         }
     }
-    
+
     return false;
 }
 
