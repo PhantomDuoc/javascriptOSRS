@@ -24,9 +24,9 @@ function main() {
                 sleep(200);
             }
         }
-        /* Luego se hace click en el pixel X:1402 Y: 526 */
+        /* Luego se hace click en el pixel X:1760 Y: 660 */
         sleep(getRandomInt(100, 400));
-        robot.moveMouseSmooth(1402, 526, 1);
+        robot.moveMouseSmooth(1760, 660, 1);
         robot.mouseClick();
         while (true) {
             /* se verifica si esta correctamente abierto el libro */
@@ -39,19 +39,19 @@ function main() {
             }
         }
         sleep(getRandomInt(50, 200));
-        robot.moveMouseSmooth(1402, 526, 1);
+        robot.moveMouseSmooth(1760, 660, 1);
         robot.mouseClick();
         cycle_runs++;
     }
 }
 
 function checkHA() {
-    var check_x = 1402,
-        check_y = 526;
+    var check_x = 1760,
+        check_y = 660;
     var sample_color = robot.getPixelColor(check_x, check_y);
 
     //console.log('Color encontrado en '+check_x,', '+check_y,' es >> '+sample_color);
-    return sample_color == '453c33'
+    return sample_color == '918f07'
 }
 
 function sleep(ms) {
