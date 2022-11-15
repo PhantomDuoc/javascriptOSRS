@@ -6,7 +6,7 @@ function main(){
     console.log('Comenzando...');
     setup();
     var cycles_done = 0;
-    cycle_max /= 27;
+    cycle_max /= 14;
     outer_loop:
     while (cycles_done < cycle_max){
         var banker = findBanker();
@@ -15,14 +15,14 @@ function main(){
             console.log('Couldnt find banker, trying again');
             continue;
         }
-        sleep(getRandomInt(300, 500));
+        sleep(getRandomInt(100, 200));
         robot.moveMouseSmooth(banker.x, banker.y, 1);
         robot.mouseClick();
         sleep(getRandomInt(1500, 2000));
-        depositLogs();        
+        depositInventory();        
         sleep(getRandomInt(500,1500));
-        withdrawLogs();
-        startFletching();
+        withdrawJugsAndGrapes();
+        startMixing();
         
         while (true){
             if (lvlUpCheck()){
@@ -30,7 +30,7 @@ function main(){
                 //otro inventario si se sube de lvl (solucion parche)
                 continue outer_loop;
             }else{
-                if (logInventory()){
+                if (JugLeft()){
                     sleep(getRandomInt(200, 700));
                 }else{
                     break;
@@ -39,21 +39,6 @@ function main(){
         }
         cycles_done++;
     }
-}
-
-function clickLastLog(){
-    var random_x = getRandomInt(1709, 1760);
-    var random_y = getRandomInt(909, 940);
-    robot.moveMouseSmooth(random_x, random_y, 1);
-    robot.mouseClick();
-}
-
-function startFletchingEnd(){
-    clickKnife();
-    sleep(getRandomInt(500, 1000));
-    clickLastLog();
-    sleep(getRandomInt(1500, 2500));
-    robot.keyTap('space');
 }
 
 function lvlUpCheck(){
@@ -79,62 +64,57 @@ function lvlUpCheck(){
     return false;
 }
 
-function depositLogs(){
-    var random_x = getRandomInt(1495, 1555);
-    var random_y = getRandomInt(460, 510);
+function depositInventory(){
+    var random_x = getRandomInt(1055, 1125);
+    var random_y = getRandomInt(630, 680);
     robot.moveMouseSmooth(random_x, random_y, 1);
     robot.mouseClick();
 }
 
-function clickLog(){
-    var random_x = getRandomInt(1495, 1555);
-    var random_y = getRandomInt(460, 510);
+function startMixing(){
+    var random_x = getRandomInt(1510, 1540);
+    var random_y = getRandomInt(690, 720);
     robot.moveMouseSmooth(random_x, random_y, 1);
     robot.mouseClick();
-}
-
-function clickKnife(){
-    var random_x = getRandomInt(1400, 1445);
-    var random_y = getRandomInt(460, 510);
+    sleep(getRandomInt(500, 700));
+    random_x = getRandomInt(1615, 1645);
+    random_y = getRandomInt(690, 720);
     robot.moveMouseSmooth(random_x, random_y, 1);
     robot.mouseClick();
-}
-
-function startFletching(){
-    clickKnife();
-    sleep(getRandomInt(500, 1000));
-    clickLog();
     sleep(getRandomInt(1500, 2500));
     robot.keyTap('space');
 }
 
-function withdrawLogs(){
-    var random_x = getRandomInt(1020, 1070);
-    var random_y = getRandomInt(355, 380);
+function withdrawJugsAndGrapes(){
+    var random_x = getRandomInt(905, 945);
+    var random_y = getRandomInt(210, 230);
     robot.moveMouseSmooth(random_x, random_y, 1);
     robot.mouseClick();
-    sleep(getRandomInt(1500, 2500));
+    sleep(getRandomInt(500, 700));
+    random_x = getRandomInt(1020, 1060);
+    random_y = getRandomInt(210, 230);
+    robot.moveMouseSmooth(random_x, random_y, 1);
+    robot.mouseClick();
+    sleep(getRandomInt(500, 700));
     robot.keyTap('escape');
-    sleep(getRandomInt(1000, 1500));
 }
 
-function logInventory(){
+function JugLeft(){
     var check_x = 1740;
     var check_y = 920;
     var pixel_color = robot.getPixelColor(check_x, check_y);
-    return pixel_color == "3b2803";
+    return pixel_color == "625959";
 }
 
 function findBanker(){
-    var x = 20, y = 70, width = 230, height = 600;
+    var x = 20, y = 70, width = 150, height = 600;
     var img = robot.screen.capture(x, y, width, height);
 
     var banker_colors = ["6a605f","6f6565","6a6060","675e5d"
                         ,"484141","524b4b","635a5a","292525"
                         ,"645b5a","524b4a","4c4545","5a5251"
                         ,"524a4a","4a4343","554d4d","574f4f"];
-
-    for (var i = 0; i < 100; i++){
+    for (var i = 0; i < 1000; i++){
         var random_x = getRandomInt(0, width-1);
         var random_y = getRandomInt(0, height-1);
         var sample_color = img.colorAt(random_x, random_y);
@@ -188,7 +168,7 @@ function setup(){
     sleep(getRandomInt(500, 1000));
     
     //abrir settings
-    robot.keyTap('f10');
+    //robot.keyTap('f10');
     //
     //girar camara
     //
@@ -205,23 +185,23 @@ function setup(){
     
     
     //click en display
-    var random_x = getRandomInt(1369, 1369+84);
+    /* var random_x = getRandomInt(1369, 1369+84);
     var random_y = getRandomInt(445, 445+69);
     robot.moveMouseSmooth(random_x, random_y, 1);
     robot.mouseClick();
 
-    sleep(getRandomInt(100, 400));
+    sleep(getRandomInt(100, 400)); */
 
     //click en 241/1004
     
-    robot.moveMouseSmooth(1754, 575, 1);
+    /* robot.moveMouseSmooth(1754, 575, 1);
     robot.mouseClick();
 
     sleep(getRandomInt(200, 500));
 
     robot.keyTap('escape');
 
-    console.log('Camera setup done');   
+    console.log('Camera setup done');    */
 }
 
 // utility functions
@@ -230,6 +210,10 @@ function sleep(ms) {
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
-k
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 main();

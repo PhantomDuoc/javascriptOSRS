@@ -1,10 +1,9 @@
 var robot = require('robotjs');
-var max = 3000;
+var max = 295;
 
 /*Comenzar con el item a trabajar en el recuadro 4.3 del inventario*/
 function main() {
     console.clear();
-    console.log('Comenzando a hacer >> ' + max, ' High Alchs');
     sleep(4000);
     var cycle_runs = 0;
     /* Primero se abre el libro de magia */
